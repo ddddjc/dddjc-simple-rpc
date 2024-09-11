@@ -5,8 +5,8 @@ package com.rpc.exception;
  * @Date: 2024-09-11-22:51
  * @Description:
  */
-public class SerializeException extends RuntimeException{
-    public SerializeException(String message){
+public class SerializeException extends RuntimeException {
+    public SerializeException(String message) {
         super(message);
     }
 }

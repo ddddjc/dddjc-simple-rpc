@@ -22,19 +22,23 @@ import java.util.concurrent.TimeUnit;
 public class ThreadPoolFactoryUtil {
     private static final Map<String, ExecutorService> THREAD_POOLS = new ConcurrentHashMap<>();
 
-    private ThreadPoolFactoryUtil(){}
-
-    public static ExecutorService createCustomThreadPoolIfAbsent(String threadNamePrefix){
-        CustomThreadPoolConfig customThreadPoolConfig = new CustomThreadPoolConfig();
-        return createCustomThreadPoolIfAbsent(customThreadPoolConfig,threadNamePrefix,false);
+    private ThreadPoolFactoryUtil() {
     }
 
-    public static ExecutorService createCustomThreadPoolIfAbsent(String threadNamePrefix, CustomThreadPoolConfig customThreadPoolConfig) {
+    public static ExecutorService createCustomThreadPoolIfAbsent(String threadNamePrefix) {
+        CustomThreadPoolConfig customThreadPoolConfig = new CustomThreadPoolConfig();
         return createCustomThreadPoolIfAbsent(customThreadPoolConfig, threadNamePrefix, false);
     }
 
-    public static ExecutorService createCustomThreadPoolIfAbsent(CustomThreadPoolConfig customThreadPoolConfig, String threadNamePrefix, Boolean daemon) {
-        ExecutorService threadPool = THREAD_POOLS.computeIfAbsent(threadNamePrefix, k -> createThreadPool(customThreadPoolConfig, threadNamePrefix, daemon));
+    public static ExecutorService createCustomThreadPoolIfAbsent(String threadNamePrefix,
+            CustomThreadPoolConfig customThreadPoolConfig) {
+        return createCustomThreadPoolIfAbsent(customThreadPoolConfig, threadNamePrefix, false);
+    }
+
+    public static ExecutorService createCustomThreadPoolIfAbsent(CustomThreadPoolConfig customThreadPoolConfig,
+            String threadNamePrefix, Boolean daemon) {
+        ExecutorService threadPool = THREAD_POOLS.computeIfAbsent(threadNamePrefix,
+                k -> createThreadPool(customThreadPoolConfig, threadNamePrefix, daemon));
         // 如果 threadPool 被 shutdown 的话就重新创建一个
         if (threadPool.isShutdown() || threadPool.isTerminated()) {
             THREAD_POOLS.remove(threadNamePrefix);
@@ -44,11 +48,12 @@ public class ThreadPoolFactoryUtil {
         return threadPool;
     }
 
-    private static ExecutorService createThreadPool(CustomThreadPoolConfig customThreadPoolConfig, String threadNamePrefix, Boolean daemon) {
+    private static ExecutorService createThreadPool(CustomThreadPoolConfig customThreadPoolConfig,
+            String threadNamePrefix, Boolean daemon) {
         ThreadFactory threadFactory = createThreadFactory(threadNamePrefix, daemon);
-        return new ThreadPoolExecutor(customThreadPoolConfig.getCorePoolSize(), customThreadPoolConfig.getMaximumPoolSize(),
-                customThreadPoolConfig.getKeepAliveTime(), customThreadPoolConfig.getUnit(), customThreadPoolConfig.getWorkQueue(),
-                threadFactory);
+        return new ThreadPoolExecutor(customThreadPoolConfig.getCorePoolSize(),
+                customThreadPoolConfig.getMaximumPoolSize(), customThreadPoolConfig.getKeepAliveTime(),
+                customThreadPoolConfig.getUnit(), customThreadPoolConfig.getWorkQueue(), threadFactory);
     }
 
     /**
@@ -61,9 +66,7 @@ public class ThreadPoolFactoryUtil {
     public static ThreadFactory createThreadFactory(String threadNamePrefix, Boolean daemon) {
         if (threadNamePrefix != null) {
             if (daemon != null) {
-                return new ThreadFactoryBuilder()
-                        .setNameFormat(threadNamePrefix + "-%d")
-                        .setDaemon(daemon).build();
+                return new ThreadFactoryBuilder().setNameFormat(threadNamePrefix + "-%d").setDaemon(daemon).build();
             } else {
                 return new ThreadFactoryBuilder().setNameFormat(threadNamePrefix + "-%d").build();
             }
@@ -95,7 +98,8 @@ public class ThreadPoolFactoryUtil {
      * @param threadPool 线程池对象
      */
     public static void printThreadPoolStatus(ThreadPoolExecutor threadPool) {
-        ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(1, createThreadFactory("print-thread-pool-status", false));
+        ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(1,
+                createThreadFactory("print-thread-pool-status", false));
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             log.info("============ThreadPool Status=============");
             log.info("ThreadPool Size: [{}]", threadPool.getPoolSize());
