@@ -26,7 +26,7 @@ public class CustomShutdownHook {
         Runtime.getRuntime().addShutdownHook(new Thread(()->{
             try{
                 InetSocketAddress inetSocketAddress=new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(), NettyRpcServer.PORT);
-                CuratorUtils.clearRegistry(CuratorUtils.getZKClient(),inetSocketAddress);
+                CuratorUtils.clearRegistry(CuratorUtils.getZkClient(),inetSocketAddress);
             } catch (UnknownHostException e) {
 
             }
