@@ -1,7 +1,7 @@
 package com.rpc.registry.zk.util;
 
 import com.rpc.enums.RpcConfigEnum;
-import com.rpc.utils.concurrent.threadpool.utils.PropertiesFileUtil;
+import com.rpc.utils.PropertiesFileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;

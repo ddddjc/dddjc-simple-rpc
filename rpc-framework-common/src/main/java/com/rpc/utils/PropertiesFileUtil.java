@@ -1,4 +1,4 @@
-package com.rpc.utils.concurrent.threadpool.utils;
+package com.rpc.utils;
 
 import lombok.extern.slf4j.Slf4j;
 

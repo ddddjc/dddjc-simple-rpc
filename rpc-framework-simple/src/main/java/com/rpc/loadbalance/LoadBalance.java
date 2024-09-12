@@ -2,7 +2,7 @@ package com.rpc.loadbalance;
 
 import com.rpc.extension.SPI;
 import com.rpc.remoting.dto.RpcRequest;
-import com.rpc.utils.concurrent.threadpool.utils.CollectionUtil;
+import com.rpc.utils.CollectionUtil;
 
 import java.util.List;
 

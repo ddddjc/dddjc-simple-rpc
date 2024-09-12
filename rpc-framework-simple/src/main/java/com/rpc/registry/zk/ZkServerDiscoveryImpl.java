@@ -8,7 +8,7 @@ import com.rpc.loadbalance.LoadBalance;
 import com.rpc.registry.ServiceDiscovery;
 import com.rpc.registry.zk.util.CuratorUtils;
 import com.rpc.remoting.dto.RpcRequest;
-import com.rpc.utils.concurrent.threadpool.utils.CollectionUtil;
+import com.rpc.utils.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 

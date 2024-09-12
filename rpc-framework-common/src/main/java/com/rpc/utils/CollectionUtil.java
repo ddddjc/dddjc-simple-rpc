@@ -1,4 +1,4 @@
-package com.rpc.utils.concurrent.threadpool.utils;
+package com.rpc.utils;
 
 import java.util.Collection;
 
